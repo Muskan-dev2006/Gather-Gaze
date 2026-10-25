@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
+import HomePage from "./pages/HomePage.jsx";
 
 const pages = [
-  ["/", "Home", false],
   ["/search", "Search recipes", false],
   ["/recipes/:slug", "Recipe details", false],
   ["/recipes/new", "Create a recipe", true],
@@ -21,6 +21,7 @@ export default function App() {
   return (
     <main className="page-main bg-cream">
       <Routes>
+        <Route path="/" element={<HomePage />} />
         {pages.map(([path, title]) => <Route key={path} path={path} element={<PagePlaceholder title={title} />} />)}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
