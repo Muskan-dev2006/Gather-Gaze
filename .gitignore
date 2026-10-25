@@ -4,5 +4,6 @@ dist/
 .env.*
 !.env.example
 .cache/
+server/scripts/.pixabay-cache.json
 coverage/
 .DS_Store

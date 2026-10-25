@@ -1,17 +1,27 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import RecipeCardGrid from "../components/recipe/RecipeCardGrid.jsx";
 import RecipeFilterBar from "../components/recipe/RecipeFilterBar.jsx";
-import { getRecipes, searchRecipes } from "../api/browse.api.js";
-import useDebounce from "../hooks/useDebounce.js";
+import HeroSlider from "../components/home/HeroSlider.jsx";
+import PageFooter from "../components/layout/PageFooter.jsx";
+import { getRecipes } from "../api/browse.api.js";
+import buildImageUrl from "../utils/buildImageUrl.js";
+import { CUISINE_IMAGES } from "../config/homeImages.js";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const PAGE_SIZE = 12;
-const CUISINES = ["Italian", "Indian", "Japanese", "Mexican", "Mediterranean", "Thai", "French", "Korean"];
+const CUISINES = Object.keys(CUISINE_IMAGES);
 const DEFAULT_FILTERS = { cuisine: "", diet: "", maxTime: "", difficulty: "" };
+const CUISINE_IMAGE_WIDTH = 180;
+const RECIPES_SECTION_ID = "recipes-grid";
+const BROWSE_BUTTON_LABEL = "Browse recipes";
+const SHARE_BUTTON_LABEL = "Share your recipe";
+const SHARE_RECIPE_MESSAGE = "Sign in to share your recipe";
 
 export default function HomePage() {
+  const { requireAuth } = useAuth();
+  const navigate = useNavigate();
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
-  const [searchInput, setSearchInput] = useState("");
-  const searchQuery = useDebounce(searchInput.trim());
   const [recipes, setRecipes] = useState([]);
   const [nextCursor, setNextCursor] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,16 +30,12 @@ export default function HomePage() {
   const requestGeneration = useRef(0);
 
   useEffect(() => {
-    const generation = requestGeneration.current + 1;
-    requestGeneration.current = generation;
+    const generation = ++requestGeneration.current;
     setRecipes([]);
     setNextCursor(null);
     setError("");
     setIsLoading(true);
-
-    const request = searchQuery
-      ? searchRecipes(searchQuery, filters)
-      : getRecipes({ filters, limit: PAGE_SIZE });
+    const request = getRecipes({ filters, limit: PAGE_SIZE });
     request.then((page) => {
       if (requestGeneration.current !== generation) return;
       setRecipes(page.items);
@@ -39,12 +45,11 @@ export default function HomePage() {
     }).finally(() => {
       if (requestGeneration.current === generation) setIsLoading(false);
     });
-
     return () => { requestGeneration.current += 1; };
-  }, [filters, searchQuery, retryCount]);
+  }, [filters, retryCount]);
 
   const loadMore = useCallback(async () => {
-    if (!nextCursor || isLoading || searchQuery) return;
+    if (!nextCursor || isLoading) return;
     const generation = requestGeneration.current;
     setIsLoading(true);
     setError("");
@@ -58,7 +63,7 @@ export default function HomePage() {
     } finally {
       if (requestGeneration.current === generation) setIsLoading(false);
     }
-  }, [filters, isLoading, nextCursor, searchQuery]);
+  }, [filters, isLoading, nextCursor]);
 
   function updateCuisine(cuisine) {
     setFilters((currentFilters) => ({ ...currentFilters, cuisine }));
@@ -69,53 +74,64 @@ export default function HomePage() {
     else setRetryCount((count) => count + 1);
   }
 
+  function browseRecipes() {
+    document.getElementById(RECIPES_SECTION_ID)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function shareRecipe() {
+    requireAuth(() => navigate("/create"), SHARE_RECIPE_MESSAGE);
+  }
+
   return (
-    <div className="space-y-9">
-      <section className="overflow-hidden rounded-[2rem] bg-[#f6ead7] px-6 py-12 sm:px-10 sm:py-16 lg:px-14">
-        <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#a65b38]">Gather around something good</p>
-        <h1 className="mt-4 max-w-3xl font-serif text-4xl font-bold leading-tight tracking-tight text-[#302b24] sm:text-5xl lg:text-6xl">
-          Find your next <span className="text-[#d94a38]">favorite</span> recipe.
-        </h1>
-        <p className="mt-4 max-w-xl text-base leading-7 text-[#786f64]">Fresh ideas, family favorites, and dishes worth sharing.</p>
-        <form className="mt-8 flex max-w-2xl gap-2 rounded-2xl bg-white p-2 shadow-sm" onSubmit={(event) => { event.preventDefault(); setSearchInput((value) => value.trim()); }}>
-          <label className="sr-only" htmlFor="recipe-search">Search recipes</label>
-          <input id="recipe-search" value={searchInput} onChange={(event) => setSearchInput(event.target.value)} placeholder="Search dishes, ingredients, or cuisines" className="min-w-0 flex-1 rounded-xl px-4 py-3 text-sm text-[#302b24] outline-none placeholder:text-[#a59a8d]" />
-          <button className="rounded-xl bg-[#d94a38] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#b9382a]" type="submit">Search</button>
-        </form>
-      </section>
-
-      <section aria-labelledby="cuisines-heading" className="space-y-4">
-        <div>
-          <h2 id="cuisines-heading" className="font-serif text-2xl font-bold text-[#302b24]">Browse by cuisine</h2>
-          <p className="mt-1 text-sm text-[#786f64]">A little inspiration from around the table.</p>
-        </div>
-        <div className="flex gap-2 overflow-x-auto pb-2">
-          {["All", ...CUISINES].map((cuisine) => {
-            const value = cuisine === "All" ? "" : cuisine;
-            const selected = filters.cuisine === value;
-            return <button key={cuisine} type="button" aria-pressed={selected} onClick={() => updateCuisine(value)} className={`shrink-0 rounded-full px-4 py-2.5 text-sm font-semibold transition ${selected ? "bg-[#d94a38] text-white" : "border border-[#eee6da] bg-white text-[#6d5840] hover:border-[#d94a38] hover:text-[#b9382a]"}`}>{cuisine}</button>;
-          })}
-        </div>
-      </section>
-
-      <section aria-labelledby="recipes-heading" className="space-y-5">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <h2 id="recipes-heading" className="font-serif text-2xl font-bold text-[#302b24]">Recipes to try</h2>
-            <p className="mt-1 text-sm text-[#786f64]">Find something delicious for today.</p>
+    <>
+      <div className="home-content">
+        <section className="home-hero" aria-labelledby="home-title">
+          <div className="home-hero-layout">
+            <HeroSlider />
+            <div className="home-hero-copy">
+              <p className="eyebrow">Gather around something good</p>
+              <h1 id="home-title">Find your next <span>favorite</span> recipe.</h1>
+              <p className="home-hero-subtitle">Fresh ideas, family favorites, and dishes worth sharing.</p>
+              <div className="home-hero-actions">
+                <button className="hero-button-primary" type="button" onClick={browseRecipes}>{BROWSE_BUTTON_LABEL}</button>
+                <button className="hero-button-secondary" type="button" onClick={shareRecipe}>{SHARE_BUTTON_LABEL}</button>
+              </div>
+            </div>
           </div>
-        </div>
-        <RecipeFilterBar filters={filters} onFiltersChange={setFilters} />
-        {error && <div role="alert" className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#f1d2c8] bg-[#fff4f0] p-4 text-sm text-[#a53a2d]"><span>{error}</span><button type="button" onClick={retry} className="font-bold underline underline-offset-4">Try again</button></div>}
-        <RecipeCardGrid
-          recipes={recipes}
-          isLoading={isLoading}
-          hasMore={Boolean(nextCursor) && !error}
-          onLoadMore={loadMore}
-          emptyMessage={searchQuery ? "No recipes match that search. Try another dish or adjust the filters." : "No recipes match these filters yet. Try a different cuisine or clear a filter."}
-        />
-      </section>
-    </div>
+        </section>
+
+        <section className="cuisine-section" aria-labelledby="cuisines-heading">
+          <div className="section-heading">
+            <div><h2 id="cuisines-heading">Browse by cuisine</h2><p>A little inspiration from around the table.</p></div>
+          </div>
+          <div className="cuisine-scroller" aria-label="Choose a cuisine">
+            <CuisineTile name="All" selected={!filters.cuisine} imageUrl="" onClick={() => updateCuisine("")} />
+            {CUISINES.map((cuisine) => <CuisineTile key={cuisine} name={cuisine} selected={filters.cuisine === cuisine} imageUrl={CUISINE_IMAGES[cuisine]} onClick={() => updateCuisine(cuisine)} />)}
+          </div>
+        </section>
+
+        <section id={RECIPES_SECTION_ID} className="recipes-section" aria-labelledby="recipes-heading">
+          <div className="section-heading recipes-heading">
+            <div><h2 id="recipes-heading">Recipes to try</h2><p>Find something delicious for today.</p></div>
+          </div>
+          <RecipeFilterBar filters={filters} onFiltersChange={setFilters} />
+          {error && <div role="alert" className="recipe-error"><span>{error}</span><button type="button" onClick={retry}>Retry</button></div>}
+          <RecipeCardGrid recipes={recipes} isLoading={isLoading} hasMore={Boolean(nextCursor) && !error} onLoadMore={loadMore} emptyMessage="No recipes match these filters yet. Try a different combination." onClearFilters={() => setFilters(DEFAULT_FILTERS)} />
+        </section>
+      </div>
+      <PageFooter />
+    </>
+  );
+}
+
+function CuisineTile({ name, imageUrl, selected, onClick }) {
+  const [imageFailed, setImageFailed] = useState(false);
+  const image = imageUrl && !imageFailed ? buildImageUrl(imageUrl, CUISINE_IMAGE_WIDTH) : "";
+  return (
+    <button className={`cuisine-tile${selected ? " is-selected" : ""}`} type="button" aria-pressed={selected} onClick={onClick}>
+      <span className="cuisine-image-wrap">{image ? <img src={image} alt="" loading="lazy" onError={() => setImageFailed(true)} /> : <span className="cuisine-initial" aria-hidden="true">{name.charAt(0)}</span>}</span>
+      <span className="cuisine-name">{name}</span>
+    </button>
   );
 }
 
