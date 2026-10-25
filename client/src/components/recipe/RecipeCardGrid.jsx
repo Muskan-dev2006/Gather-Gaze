@@ -6,18 +6,18 @@ import useInfiniteScroll from "../../hooks/useInfiniteScroll.js";
 const INITIAL_SKELETON_COUNT = 8;
 const MORE_SKELETON_COUNT = 4;
 
-export default function RecipeCardGrid({ recipes, isLoading, hasMore, onLoadMore, emptyMessage, onClearFilters }) {
+export default function RecipeCardGrid({ recipes, isLoading, hasMore, onLoadMore, emptyMessage, onClearFilters, renderActions }) {
   const sentinelRef = useInfiniteScroll({ hasMore, isLoading, onLoadMore });
 
   if (isLoading && recipes.length === 0) return <LoadingSkeleton count={INITIAL_SKELETON_COUNT} />;
   if (!isLoading && recipes.length === 0) {
-    return <div className="recipe-empty-state"><EmptyStateMessage message={emptyMessage} /><button type="button" onClick={onClearFilters}>Clear filters</button></div>;
+    return <div className="recipe-empty-state"><EmptyStateMessage message={emptyMessage} />{onClearFilters && <button type="button" onClick={onClearFilters}>Clear filters</button>}</div>;
   }
 
   return (
     <>
       <div className="recipe-grid">
-        {recipes.map((recipe) => <RecipeCard key={recipe._id} recipe={recipe} />)}
+        {recipes.map((recipe) => <RecipeCard key={recipe._id} recipe={recipe} actions={renderActions?.(recipe)} />)}
       </div>
       {isLoading && <LoadingSkeleton count={MORE_SKELETON_COUNT} />}
       {hasMore && <div ref={sentinelRef} className="recipe-load-more"><button type="button" disabled={isLoading} onClick={onLoadMore}>{isLoading ? "Loading more recipes…" : "Load more recipes"}</button></div>}

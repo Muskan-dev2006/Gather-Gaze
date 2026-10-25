@@ -5,7 +5,7 @@ import formatCookTime from "../../utils/formatCookTime.js";
 
 const RECIPE_IMAGE_WIDTH = 720;
 
-export default function RecipeCard({ recipe }) {
+export default function RecipeCard({ recipe, actions }) {
   const [imageFailed, setImageFailed] = useState(false);
   const imageUrl = buildImageUrl(recipe.coverUrl, RECIPE_IMAGE_WIDTH);
   const hasImage = imageUrl && !imageFailed;
@@ -31,6 +31,7 @@ export default function RecipeCard({ recipe }) {
           {averageRating ? <><span className="rating-star" aria-hidden="true">★</span><span className="rating-value">{averageRating}</span><span className="review-count">({recipe.ratingCount} {recipe.ratingCount === 1 ? "review" : "reviews"})</span></> : <span className="new-rating">New</span>}
         </div>
       </Link>
+      {actions}
     </article>
   );
 }

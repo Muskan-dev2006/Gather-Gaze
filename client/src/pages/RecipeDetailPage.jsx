@@ -1,22 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { deleteRecipe, getRecipeBySlug } from "../api/recipes.api.js";
-
-function LikeButtonPlaceholder({ isLiked }) {
-  return <button type="button" disabled className="rounded-full border border-[#eee6da] px-4 py-2 text-sm font-semibold text-[#786f64]" aria-label="Like button coming soon">{isLiked ? "Liked" : "Like"}</button>;
-}
-
-function SaveButtonPlaceholder({ isSaved }) {
-  return <button type="button" disabled className="rounded-full border border-[#eee6da] px-4 py-2 text-sm font-semibold text-[#786f64]" aria-label="Save button coming soon">{isSaved ? "Saved" : "Save"}</button>;
-}
-
-function ReviewListPlaceholder() {
-  return <p className="mt-3 text-sm text-[#786f64]">Reviews will appear here.</p>;
-}
-
-function ReviewFormPlaceholder() {
-  return <p className="mt-3 text-sm text-[#786f64]">Review submission will be available soon.</p>;
-}
+import LikeButton from "../components/recipe/LikeButton.jsx";
+import SaveButton from "../components/recipe/SaveButton.jsx";
+import RecipeReviews from "../components/recipe/RecipeReviews.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
 
 function RecipeLoading() {
   return (
@@ -49,14 +37,17 @@ function formatQuantity(quantity) {
 export default function RecipeDetailPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [recipe, setRecipe] = useState(null);
   const [status, setStatus] = useState("loading");
   const [errorMessage, setErrorMessage] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     let isActive = true;
     setStatus("loading");
+    setErrorMessage("");
     getRecipeBySlug(slug)
       .then((data) => {
         if (isActive) {
@@ -77,17 +68,16 @@ export default function RecipeDetailPage() {
     return () => {
       isActive = false;
     };
-  }, [slug]);
+  }, [slug, retryCount, user?._id, user?.id]);
 
   async function handleDelete() {
-    if (!window.confirm(`Delete “${recipe.title}”? This cannot be undone.`)) return;
+    if (!window.confirm(`Delete "${recipe.title}"? This cannot be undone.`)) return;
     setIsDeleting(true);
     try {
       await deleteRecipe(recipe._id);
       navigate("/my/recipes", { replace: true });
     } catch (error) {
       setErrorMessage(error.response?.data?.message || "We couldn't delete this recipe. Please try again.");
-      setStatus("error");
       setIsDeleting(false);
     }
   }
@@ -97,7 +87,7 @@ export default function RecipeDetailPage() {
     return <RecipeMessage title="Recipe not found" message="This recipe may have been removed or the link may be incorrect."><Link to="/" className="mt-6 font-semibold text-[#b9382a] underline">Back to home</Link></RecipeMessage>;
   }
   if (status === "error") {
-    return <RecipeMessage title="We couldn't load this recipe" message={errorMessage}><button type="button" onClick={() => window.location.reload()} className="mt-6 rounded-full bg-[#d94a38] px-5 py-3 font-semibold text-white">Try again</button></RecipeMessage>;
+    return <RecipeMessage title="We couldn't load this recipe" message={errorMessage}><button type="button" onClick={() => setRetryCount((count) => count + 1)} className="mt-6 rounded-full bg-[#d94a38] px-5 py-3 font-semibold text-white">Try again</button></RecipeMessage>;
   }
 
   const author = recipe.authorId || {};
@@ -126,7 +116,7 @@ export default function RecipeDetailPage() {
           </div>
           {recipe.isAuthor && (
             <div className="flex shrink-0 gap-2">
-              <Link to={`/recipes/${recipe._id}/edit`} className="rounded-full border border-[#eee6da] px-4 py-2 text-sm font-semibold hover:border-[#d94a38] hover:text-[#b9382a]">Edit</Link>
+              <Link to={`/recipes/${recipe.slug}/edit`} className="rounded-full border border-[#eee6da] px-4 py-2 text-sm font-semibold hover:border-[#d94a38] hover:text-[#b9382a]">Edit</Link>
               <button type="button" disabled={isDeleting} onClick={handleDelete} className="rounded-full border border-[#eee6da] px-4 py-2 text-sm font-semibold text-[#b9382a] hover:border-[#b9382a] disabled:opacity-50">{isDeleting ? "Deleting..." : "Delete"}</button>
             </div>
           )}
@@ -140,8 +130,8 @@ export default function RecipeDetailPage() {
           <span className="rounded-full bg-[#f5efe4] px-3 py-2 text-sm capitalize">{recipe.diet}</span>
         </div>
         <div className="mt-5 flex gap-2">
-          <LikeButtonPlaceholder recipeId={recipe._id} isLiked={recipe.isLiked} likeCount={recipe.likeCount} />
-          <SaveButtonPlaceholder recipeId={recipe._id} isSaved={recipe.isSaved} />
+          <LikeButton recipeId={recipe._id} isLiked={recipe.isLiked} likeCount={recipe.likeCount} onChange={(result) => setRecipe((current) => ({ ...current, ...result }))} />
+          <SaveButton recipeId={recipe._id} isSaved={recipe.isSaved} onChange={(result) => setRecipe((current) => ({ ...current, ...result }))} />
         </div>
       </header>
 
@@ -172,8 +162,7 @@ export default function RecipeDetailPage() {
 
       <section aria-labelledby="reviews-heading" className="border-t border-[#eee6da] py-8">
         <h2 id="reviews-heading" className="font-serif text-2xl font-bold">Reviews</h2>
-        <ReviewFormPlaceholder recipeId={recipe._id} />
-        <ReviewListPlaceholder recipeId={recipe._id} />
+        <RecipeReviews recipeId={recipe._id} />
       </section>
     </article>
   );
