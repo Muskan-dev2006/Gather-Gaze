@@ -3,6 +3,9 @@ import app from "./app.js";
 import { connectDatabase } from "./config/database.js";
 import { env } from "./config/env.js";
 
-if (process.env.MONGODB_URI) await connectDatabase();
+if (env.mongoUri) await connectDatabase();
+else process.stdout.write("MongoDB connection skipped: set MONGODB_URI in server/.env.\n");
 
-createServer(app).listen(env.port);
+createServer(app).listen(env.port, () => {
+  process.stdout.write(`Server started on port ${env.port}.\n`);
+});

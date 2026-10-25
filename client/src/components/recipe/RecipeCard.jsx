@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import buildImageUrl from "../../utils/buildImageUrl.js";
 import formatCookTime from "../../utils/formatCookTime.js";
@@ -5,35 +6,56 @@ import formatCookTime from "../../utils/formatCookTime.js";
 const RECIPE_IMAGE_WIDTH = 720;
 
 export default function RecipeCard({ recipe }) {
+  const [imageFailed, setImageFailed] = useState(false);
   const imageUrl = buildImageUrl(recipe.coverUrl, RECIPE_IMAGE_WIDTH);
+  const hasImage = imageUrl && !imageFailed;
+  const averageRating = recipe.ratingCount ? (recipe.ratingSum / recipe.ratingCount).toFixed(1) : null;
 
   return (
-    <article className="group overflow-hidden rounded-3xl border border-[#eee6da] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-      <Link to={`/recipes/${recipe.slug}`} className="block" aria-label={`View ${recipe.title}`}>
-        <div className="relative aspect-[4/3] overflow-hidden bg-[#f1e9dd]">
-          <img
-            src={imageUrl}
-            alt={recipe.title}
-            loading="lazy"
-            decoding="async"
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
-          />
-          <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold capitalize text-[#574d40] shadow-sm">
-            {recipe.cuisine}
-          </span>
-        </div>
-        <div className="p-5">
-          <h2 className="line-clamp-2 min-h-14 font-serif text-xl font-bold leading-snug text-[#302b24]">{recipe.title}</h2>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <span className="rounded-full bg-[#fff5e5] px-3 py-1.5 text-xs font-semibold text-[#806124]">{formatCookTime(recipe.cookTime)}</span>
-            <span className="rounded-full bg-[#faece8] px-3 py-1.5 text-xs font-semibold capitalize text-[#a53a2d]">{recipe.difficulty}</span>
-          </div>
-          <div className="mt-4 flex items-center justify-between border-t border-[#f1ece4] pt-4 text-sm text-[#786f64]">
-            <span>{recipe.ratingCount ? `★ ${(recipe.ratingSum / recipe.ratingCount).toFixed(1)} (${recipe.ratingCount})` : "New recipe"}</span>
-            <span aria-label={`${recipe.likeCount} likes`}>♥ {recipe.likeCount}</span>
-          </div>
+    <article className="recipe-card">
+      <div className="recipe-card-photo">
+        <Link to={`/recipes/${recipe.slug}`} className="recipe-photo-link" aria-label={`View ${recipe.title}`}>
+          {hasImage && <img src={imageUrl} alt={recipe.title} loading="lazy" decoding="async" onError={() => setImageFailed(true)} />}
+          {!hasImage && <FoodPhotoPlaceholder />}
+        </Link>
+        <button className="recipe-like-placeholder" type="button" aria-label={`Like ${recipe.title}`} title="Like controls are being added">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.7c0 4.1-8.8 10-8.8 10s-8.8-5.9-8.8-10a4.7 4.7 0 0 1 8.8-2.2 4.7 4.7 0 0 1 8.8 2.2Z" /></svg>
+        </button>
+        <span className="recipe-time-pill"><ClockIcon />{formatCookTime(recipe.cookTime)}</span>
+      </div>
+      <Link to={`/recipes/${recipe.slug}`} className="recipe-card-copy" aria-label={`Open ${recipe.title}`}>
+        <span className="recipe-diet-row"><DietMarker diet={recipe.diet} /><span className="recipe-diet-label">{dietLabel(recipe.diet)}</span></span>
+        <h3>{recipe.title}</h3>
+        <p className="recipe-meta">{recipe.cuisine}<span aria-hidden="true">·</span>{capitalize(recipe.difficulty)}</p>
+        <div className="recipe-rating" aria-label={averageRating ? `${averageRating} stars from ${recipe.ratingCount} reviews` : "No reviews yet"}>
+          {averageRating ? <><span className="rating-star" aria-hidden="true">★</span><span className="rating-value">{averageRating}</span><span className="review-count">({recipe.ratingCount} {recipe.ratingCount === 1 ? "review" : "reviews"})</span></> : <span className="new-rating">New</span>}
         </div>
       </Link>
     </article>
   );
+}
+
+function FoodPhotoPlaceholder() {
+  return <span className="recipe-photo-placeholder" aria-hidden="true"><ForkKnifeIcon /></span>;
+}
+
+function DietMarker({ diet }) {
+  if (diet === "keto") return <span className="keto-marker">K</span>;
+  return <span className={`diet-dot ${diet === "non-veg" ? "is-non-veg" : "is-veg"}`} />;
+}
+
+function dietLabel(diet) {
+  return diet === "non-veg" ? "Non-vegetarian" : diet === "keto" ? "Keto" : diet === "vegan" ? "Vegan" : "Vegetarian";
+}
+
+function capitalize(value = "") {
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function ClockIcon() {
+  return <svg className="clock-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" /><path d="M10 5.8v4.5l3 1.8" /></svg>;
+}
+
+function ForkKnifeIcon() {
+  return <svg viewBox="0 0 32 32" fill="none"><path d="M9 4v8m4-8v8m-2-8v24M22 4c-3 4-4 8-4 12h5v12M23 4v24" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>;
 }
