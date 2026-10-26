@@ -12,15 +12,8 @@ import SavedRecipesPage from "./pages/SavedRecipesPage.jsx";
 import MyRecipesPage from "./pages/MyRecipesPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import RecipeCardGrid from "./components/recipe/RecipeCardGrid.jsx";
-
-const PLACEHOLDER_PAGES = [
-  ["/search", "Search recipes"],
-  ["/notifications", "Notifications"],
-];
-
-function PagePlaceholder({ title }) {
-  return <section className="empty-state"><h1>{title}</h1><p>This part of the recipe community is coming together.</p></section>;
-}
+import NotificationsPage from "./pages/NotificationsPage.jsx";
+import SearchPage from "./pages/SearchPage.jsx";
 
 export default function App() {
   const location = useLocation();
@@ -40,7 +33,8 @@ export default function App() {
           <Route path="/me/recipes" element={<LoginRequiredRoute message="Sign in to see your recipes."><MyRecipesPage RecipeCardGrid={RecipeCardGrid} /></LoginRequiredRoute>} />
           <Route path="/profile" element={<LoginRequiredRoute message="Sign in to view your profile."><ProfilePage RecipeCardGrid={RecipeCardGrid} /></LoginRequiredRoute>} />
           <Route path="/me/profile" element={<LoginRequiredRoute message="Sign in to view your profile."><ProfilePage RecipeCardGrid={RecipeCardGrid} /></LoginRequiredRoute>} />
-          {PLACEHOLDER_PAGES.map(([path, title]) => <Route key={path} path={path} element={<PagePlaceholder title={title} />} />)}
+          <Route path="/notifications" element={<LoginRequiredRoute message="Sign in to view notifications."><NotificationsPage /></LoginRequiredRoute>} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

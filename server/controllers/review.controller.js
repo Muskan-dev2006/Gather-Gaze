@@ -2,6 +2,7 @@ import Recipe from "../models/Recipe.js";
 import Review from "../models/Review.js";
 import ApiError from "../utils/ApiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import Notification from "../models/Notification.js";
 
 const REVIEW_LIMIT = 50;
 
@@ -39,6 +40,10 @@ export const createReview = asyncHandler(async (request, response) => {
     } catch (error) {
       if (error.code === 11000) throw new ApiError(409, "You already reviewed this recipe. Refresh and try again.", "DUPLICATE_RESOURCE");
       throw error;
+    }
+    const recipe = await Recipe.findById(recipeId).select("authorId");
+    if (recipe && recipe.authorId.toString() !== request.user.id) {
+      await Notification.create({ recipientId: recipe.authorId, actorId: request.user.id, recipeId, type: "review" });
     }
   }
 

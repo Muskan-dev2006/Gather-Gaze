@@ -1,5 +1,16 @@
 import axios from "axios";
 
+export async function getNotifications() {
+  const { data } = await axios.get("/api/notifications", { withCredentials: true });
+  return data;
+}
+
+export async function markNotificationsRead(id) {
+  const path = id ? `/api/notifications/${encodeURIComponent(id)}/read` : "/api/notifications/read";
+  const { data } = await axios.patch(path, {}, { withCredentials: true });
+  return data;
+}
+
 export async function addRecipeLike(recipeId) {
   const { data } = await axios.post(`/api/recipes/${encodeURIComponent(recipeId)}/like`, {}, { withCredentials: true });
   return data;

@@ -44,7 +44,7 @@ export default function ReviewForm({ recipeId, currentUserReview, onSubmitted })
       <h3 className="font-serif text-xl font-bold">{currentUserReview ? "Update your review" : "Leave a review"}</h3>
       <label className="mt-4 block text-sm font-semibold text-[#494035]">Your rating
         <select className="mt-2 block w-full rounded-xl border border-[#e9dfd2] bg-white px-3 py-3 text-sm" value={rating} onChange={(event) => setRating(Number(event.target.value))}>
-          <option value={5}>5 — Loved it</option><option value={4}>4 — Really good</option><option value={3}>3 — It was good</option><option value={2}>2 — Not for me</option><option value={1}>1 — Disappointed</option>
+          <option value={5}>5 &#9733; Loved it</option><option value={4}>4 &#9733; Really good</option><option value={3}>3 &#9733; It was good</option><option value={2}>2 &#9733; Not for me</option><option value={1}>1 &#9733; Disappointed</option>
         </select>
       </label>
       <label className="mt-4 block text-sm font-semibold text-[#494035]">Your note <span className="font-normal text-[#968a7d]">(optional)</span>
@@ -53,7 +53,7 @@ export default function ReviewForm({ recipeId, currentUserReview, onSubmitted })
       <p className="mt-1 text-right text-xs text-[#968a7d]">{comment.length}/1000</p>
       {error && <p role="alert" className="mt-3 text-sm text-[#a53a2d]">{error}</p>}
       {message && <p role="status" className="mt-3 text-sm text-[#397346]">{message}</p>}
-      <button className="mt-4 rounded-full bg-[#d94a38] px-5 py-3 text-sm font-bold text-white hover:bg-[#b9382a] disabled:opacity-60" type="submit" disabled={isSaving}>{isSaving ? "Saving…" : currentUserReview ? "Update review" : "Post review"}</button>
+      <button className="mt-4 rounded-full bg-[#d94a38] px-5 py-3 text-sm font-bold text-white hover:bg-[#b9382a] disabled:opacity-60" type="submit" disabled={isSaving}>{isSaving ? "SavingÃ¢â‚¬Â¦" : currentUserReview ? "Update review" : "Post review"}</button>
     </form>
   );
 }

@@ -21,6 +21,7 @@ export default function RecipeCard({ recipe, actions }) {
         <button className="recipe-like-placeholder" type="button" aria-label={`Like ${recipe.title}`} title="Like controls are being added">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.7c0 4.1-8.8 10-8.8 10s-8.8-5.9-8.8-10a4.7 4.7 0 0 1 8.8-2.2 4.7 4.7 0 0 1 8.8 2.2Z" /></svg>
         </button>
+        {recipe.isSaved && <span className="recipe-saved-indicator" role="img" aria-label="Saved recipe" title="Saved recipe"><BookmarkIcon /></span>}
         <span className="recipe-time-pill"><ClockIcon />{formatCookTime(recipe.cookTime)}</span>
       </div>
       <Link to={`/recipes/${recipe.slug}`} className="recipe-card-copy" aria-label={`Open ${recipe.title}`}>
@@ -55,6 +56,10 @@ function capitalize(value = "") {
 
 function ClockIcon() {
   return <svg className="clock-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" /><path d="M10 5.8v4.5l3 1.8" /></svg>;
+}
+
+function BookmarkIcon() {
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.8A1.8 1.8 0 0 1 7.8 3h8.4A1.8 1.8 0 0 1 18 4.8V21l-6-3.8L6 21V4.8Z" /></svg>;
 }
 
 function ForkKnifeIcon() {
