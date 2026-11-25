@@ -3,16 +3,13 @@ import { useNavigate } from "react-router-dom";
 import RecipeCardGrid from "../components/recipe/RecipeCardGrid.jsx";
 import RecipeFilterBar from "../components/recipe/RecipeFilterBar.jsx";
 import HeroSlider from "../components/home/HeroSlider.jsx";
+import CuisineTiles from "../components/home/CuisineTiles.jsx";
 import PageFooter from "../components/layout/PageFooter.jsx";
 import { getRecipes } from "../api/browse.api.js";
-import buildImageUrl from "../utils/buildImageUrl.js";
-import { CUISINE_IMAGES } from "../config/homeImages.js";
 import { useAuth } from "../context/AuthContext.jsx";
 
 const PAGE_SIZE = 12;
-const CUISINES = Object.keys(CUISINE_IMAGES);
 const DEFAULT_FILTERS = { cuisine: "", diet: "", maxTime: "", difficulty: "" };
-const CUISINE_IMAGE_WIDTH = 180;
 const RECIPES_SECTION_ID = "recipes-grid";
 const BROWSE_BUTTON_LABEL = "Browse recipes";
 const SHARE_BUTTON_LABEL = "Share your recipe";
@@ -104,10 +101,7 @@ export default function HomePage() {
           <div className="section-heading">
             <div><h2 id="cuisines-heading">Browse by cuisine</h2><p>A little inspiration from around the table.</p></div>
           </div>
-          <div className="cuisine-scroller" aria-label="Choose a cuisine">
-            <CuisineTile name="All" selected={!filters.cuisine} imageUrl="" onClick={() => updateCuisine("")} />
-            {CUISINES.map((cuisine) => <CuisineTile key={cuisine} name={cuisine} selected={filters.cuisine === cuisine} imageUrl={CUISINE_IMAGES[cuisine]} onClick={() => updateCuisine(cuisine)} />)}
-          </div>
+          <CuisineTiles selectedCuisine={filters.cuisine} onCuisineChange={updateCuisine} />
         </section>
 
         <section id={RECIPES_SECTION_ID} className="recipes-section" aria-labelledby="recipes-heading">
@@ -121,17 +115,6 @@ export default function HomePage() {
       </div>
       <PageFooter />
     </>
-  );
-}
-
-function CuisineTile({ name, imageUrl, selected, onClick }) {
-  const [imageFailed, setImageFailed] = useState(false);
-  const image = imageUrl && !imageFailed ? buildImageUrl(imageUrl, CUISINE_IMAGE_WIDTH) : "";
-  return (
-    <button className={`cuisine-tile${selected ? " is-selected" : ""}`} type="button" aria-pressed={selected} onClick={onClick}>
-      <span className="cuisine-image-wrap">{image ? <img src={image} alt="" loading="lazy" onError={() => setImageFailed(true)} /> : <span className="cuisine-initial" aria-hidden="true">{name.charAt(0)}</span>}</span>
-      <span className="cuisine-name">{name}</span>
-    </button>
   );
 }
 

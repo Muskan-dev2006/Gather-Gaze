@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { getCurrentUser, signInWithGoogle, signOut } from "../api/auth.api.js";
+import { io } from "socket.io-client";
 
 const AuthContext = createContext(null);
 
@@ -8,11 +9,25 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [signInMessage, setSignInMessage] = useState("");
+  const [notificationSocket, setNotificationSocket] = useState(null);
   const pendingAction = useRef(null);
 
   useEffect(() => {
     getCurrentUser().then(setUser).catch(() => setUser(null)).finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (!user) {
+      setNotificationSocket(null);
+      return undefined;
+    }
+    const socket = io({ withCredentials: true });
+    setNotificationSocket(socket);
+    return () => {
+      socket.disconnect();
+      setNotificationSocket(null);
+    };
+  }, [user?._id, user?.id]);
 
   const requireAuth = useCallback((action, message) => {
     if (user) {
@@ -46,6 +61,7 @@ export function AuthProvider({ children }) {
 
   const value = useMemo(() => ({
     user,
+    notificationSocket,
     loading,
     requireAuth,
     isSignInOpen,
@@ -53,7 +69,7 @@ export function AuthProvider({ children }) {
     closeSignIn,
     completeSignIn,
     logout,
-  }), [user, loading, requireAuth, isSignInOpen, signInMessage, closeSignIn, completeSignIn, logout]);
+  }), [user, notificationSocket, loading, requireAuth, isSignInOpen, signInMessage, closeSignIn, completeSignIn, logout]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

@@ -21,6 +21,8 @@ const futureRouteMounts = [
   ["/api/recipes", "./routes/save.routes.js"],
   ["/api/me", "./routes/me.routes.js"],
   ["/api/notifications", "./routes/notification.routes.js"],
+  ["/api/collections", "./routes/collection.routes.js"],
+  ["/api/users", "./routes/follow.routes.js"],
 ];
 
 app.use(cors({ origin: env.clientOrigin, credentials: true }));

@@ -1,7 +1,8 @@
 const DEFAULT_IMAGE_WIDTH = 960;
+const DEFAULT_ASPECT_RATIO = "4:3";
 const CLOUDINARY_UPLOAD_PATH = "/upload/";
 
-export default function buildImageUrl(imageUrl, width = DEFAULT_IMAGE_WIDTH) {
+export default function buildImageUrl(imageUrl, width = DEFAULT_IMAGE_WIDTH, { aspectRatio = DEFAULT_ASPECT_RATIO } = {}) {
   if (!imageUrl) return "";
 
   let parsedUrl;
@@ -16,7 +17,7 @@ export default function buildImageUrl(imageUrl, width = DEFAULT_IMAGE_WIDTH) {
   }
 
   const imageWidth = Number.isInteger(Number(width)) && Number(width) > 0 ? Number(width) : DEFAULT_IMAGE_WIDTH;
-  const transformation = `f_auto,q_auto,w_${imageWidth},ar_4:3,c_fill`;
+  const transformation = `f_auto,q_auto,w_${imageWidth},ar_${aspectRatio},c_fill`;
   parsedUrl.pathname = parsedUrl.pathname.replace(CLOUDINARY_UPLOAD_PATH, `${CLOUDINARY_UPLOAD_PATH}${transformation}/`);
   return parsedUrl.toString();
 }
