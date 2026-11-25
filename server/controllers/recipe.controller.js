@@ -3,6 +3,7 @@ import ApiError from "../utils/ApiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { attachUserFlags } from "../utils/attachUserFlags.js";
 import User from "../models/User.js";
+import Collection from "../models/Collection.js";
 
 function slugify(title) {
   return title
@@ -72,5 +73,6 @@ export const deleteRecipe = asyncHandler(async (request, response) => {
   }
 
   await recipe.deleteOne();
+  await Collection.updateMany({ userId: request.user.id }, { $pull: { recipeIds: recipe._id } });
   response.json({ message: "Recipe deleted." });
 });

@@ -33,7 +33,7 @@ export default function SavedRecipesPage({ RecipeCardGrid }) {
     <section className="mx-auto max-w-5xl text-[#302b24]">
       <header className="mb-8 border-b border-[#eee6da] pb-6">
         <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#b9382a]">Kept for later</p>
-        <h1 className="mt-2 font-serif text-4xl font-bold">Saved recipes</h1>
+        <div className="flex flex-wrap items-end justify-between gap-3"><div><h1 className="mt-2 font-serif text-4xl font-bold">Saved recipes</h1></div><Link className="rounded-full border border-[#eee6da] px-4 py-2 text-sm font-semibold text-[#a53a2d] hover:bg-[#fff4f0]" to="/collections">Manage cookbooks</Link></div>
       </header>
       {error && <p role="alert" className="mb-5 rounded-md border border-[#d94a38]/30 bg-white px-4 py-3 text-sm text-[#b9382a]">{error}</p>}
       {isLoading ? <p role="status" className="py-12 text-center text-[#786f64]">Loading saved recipes...</p> : recipes.length === 0 ? (

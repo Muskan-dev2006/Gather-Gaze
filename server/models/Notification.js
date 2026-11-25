@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-export const NOTIFICATION_TYPES = ["like", "review"];
+export const NOTIFICATION_TYPES = ["like", "review", "follow"];
 
 const notificationSchema = new mongoose.Schema(
   {
     recipientId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     actorId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    recipeId: { type: mongoose.Schema.Types.ObjectId, ref: "Recipe", required: true },
+    recipeId: { type: mongoose.Schema.Types.ObjectId, ref: "Recipe" },
     type: { type: String, enum: NOTIFICATION_TYPES, required: true },
     isRead: { type: Boolean, default: false },
   },

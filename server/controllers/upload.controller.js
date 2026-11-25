@@ -2,7 +2,7 @@ import { v2 as cloudinary } from "cloudinary";
 import ApiError from "../utils/ApiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
-const uploadFolder = "recipes/covers";
+const uploadFolders = new Set(["recipes/covers", "recipes/steps", "reviews"]);
 
 export const getUploadSignature = asyncHandler(async (request, response) => {
   const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_UPLOAD_PRESET } = process.env;
@@ -10,6 +10,8 @@ export const getUploadSignature = asyncHandler(async (request, response) => {
     throw new ApiError(503, "Image uploads are not configured.", "UPLOADS_UNAVAILABLE");
   }
 
+  const uploadFolder = request.query.folder || "recipes/covers";
+  if (!uploadFolders.has(uploadFolder)) throw new ApiError(400, "Unsupported image upload folder.", "VALIDATION_ERROR");
   const timestamp = Math.floor(Date.now() / 1000);
   const paramsToSign = {
     folder: uploadFolder,

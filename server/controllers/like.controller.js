@@ -2,7 +2,7 @@ import Like from "../models/Like.js";
 import Recipe from "../models/Recipe.js";
 import ApiError from "../utils/ApiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import Notification from "../models/Notification.js";
+import createNotification from "../utils/createNotification.js";
 
 export const addLike = asyncHandler(async (request, response) => {
   const { id: recipeId } = request.params;
@@ -10,7 +10,7 @@ export const addLike = asyncHandler(async (request, response) => {
   if (!recipeDocument) throw new ApiError(404, "Recipe not found.", "NOT_FOUND");
   await Like.create({ userId: request.user.id, recipeId });
   if (recipeDocument.authorId.toString() !== request.user.id) {
-    await Notification.create({ recipientId: recipeDocument.authorId, actorId: request.user.id, recipeId, type: "like" });
+    await createNotification({ recipientId: recipeDocument.authorId, actorId: request.user.id, recipeId, type: "like" });
   }
   const recipe = await Recipe.findByIdAndUpdate(recipeId, { $inc: { likeCount: 1 } }, { new: true }).select("likeCount").lean();
   response.status(201).json({ isLiked: true, likeCount: recipe.likeCount });

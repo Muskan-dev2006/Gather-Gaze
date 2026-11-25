@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import imageCompression from "browser-image-compression";
 import { useDropzone } from "react-dropzone";
 import { getUploadSignature, uploadImageToCloudinary } from "../../api/uploads.api.js";
@@ -6,7 +6,8 @@ import { getUploadSignature, uploadImageToCloudinary } from "../../api/uploads.a
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 const ACCEPTED_IMAGES = { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] };
 
-export default function CoverImageUploader({ imageUrl = "", onChange, disabled = false, onUploadingChange }) {
+export default function CoverImageUploader({ imageUrl = "", onChange, disabled = false, onUploadingChange, folder = "recipes/covers", label = "Cover photo", required = true }) {
+  const headingId = useId();
   const [previewUrl, setPreviewUrl] = useState(imageUrl);
   const [isUploading, setIsUploading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -34,7 +35,7 @@ export default function CoverImageUploader({ imageUrl = "", onChange, disabled =
         useWebWorker: true,
         fileType: file.type,
       });
-      const signature = await getUploadSignature();
+      const signature = await getUploadSignature(folder);
       const uploadedUrl = await uploadImageToCloudinary(compressedFile, signature, setProgress);
       const nextPreview = URL.createObjectURL(compressedFile);
       setPreviewUrl(nextPreview);
@@ -66,12 +67,12 @@ export default function CoverImageUploader({ imageUrl = "", onChange, disabled =
   });
 
   return (
-    <section aria-labelledby="cover-upload-heading">
-      <h2 id="cover-upload-heading" className="font-serif text-xl font-bold">Cover photo <span className="text-[#b9382a]">*</span></h2>
+    <section aria-labelledby={headingId}>
+      <h2 id={headingId} className="font-serif text-xl font-bold">{label}{required && <span className="text-[#b9382a]"> *</span>}</h2>
       <p className="mt-1 text-sm leading-5 text-[#786f64]">JPG, PNG, or WebP. Maximum 10 MB before compression.</p>
       <div {...getRootProps({ className: `mt-4 flex min-h-52 flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-dashed text-center transition ${isDragActive ? "border-[#d94a38] bg-[#fff4f0]" : "border-[#e9dfd2] bg-[#fffaf2]"} ${disabled ? "opacity-60" : ""}` })}>
-        <input {...getInputProps()} aria-label="Choose recipe cover photo" />
-        {previewUrl ? <img src={previewUrl} alt="Recipe cover preview" className="h-52 w-full object-cover" /> : <div className="px-5 py-8"><span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-white text-2xl text-[#b9382a] shadow-sm">?</span><p className="mt-3 text-sm font-bold">{isDragActive ? "Drop your photo here" : "Drag a photo here"}</p><p className="mt-1 text-xs text-[#968a7d]">or choose a file from your device</p></div>}
+        <input {...getInputProps()} aria-label={`Choose ${label.toLowerCase()}`} />
+        {previewUrl ? <img src={previewUrl} alt={`${label} preview`} className="h-52 w-full object-cover" /> : <div className="px-5 py-8"><span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-white text-2xl text-[#b9382a] shadow-sm">?</span><p className="mt-3 text-sm font-bold">{isDragActive ? "Drop your photo here" : "Drag a photo here"}</p><p className="mt-1 text-xs text-[#968a7d]">or choose a file from your device</p></div>}
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-3">
         <button type="button" onClick={open} disabled={disabled || isUploading} className="rounded-full border border-[#eee6da] px-4 py-2 text-sm font-bold text-[#a53a2d] hover:bg-[#fff4f0] disabled:opacity-50">{previewUrl ? "Change photo" : "Choose photo"}</button>

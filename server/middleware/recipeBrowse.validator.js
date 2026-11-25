@@ -3,7 +3,7 @@ import { DIETS, DIFFICULTIES } from "../models/Recipe.js";
 
 const DEFAULT_PAGE_SIZE = 20;
 const MAX_PAGE_SIZE = 50;
-const MAX_SEARCH_LENGTH = 120;
+const MAX_SEARCH_LENGTH = 100;
 const CURSOR_LENGTH = 32;
 const CURSOR_PATTERN = /^[A-Za-z0-9_-]+$/;
 

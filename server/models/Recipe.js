@@ -16,6 +16,7 @@ const stepSchema = new mongoose.Schema(
   {
     order: { type: Number, required: true, min: 1 },
     text: { type: String, required: true, trim: true },
+    imageUrl: { type: String, trim: true },
   },
   { _id: false },
 );

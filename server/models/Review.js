@@ -6,6 +6,8 @@ const reviewSchema = new mongoose.Schema(
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     rating: { type: Number, required: true, min: 1, max: 5 },
     comment: { type: String, trim: true, maxlength: 1000 },
+    photos: [{ type: String, trim: true, maxlength: 2048 }],
+    helpfulCount: { type: Number, default: 0, min: 0 },
   },
   { timestamps: true },
 );

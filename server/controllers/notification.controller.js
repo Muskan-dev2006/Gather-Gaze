@@ -1,6 +1,7 @@
 import Notification from "../models/Notification.js";
 import ApiError from "../utils/ApiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import { emitUnreadCount } from "../realtime/notificationSocket.js";
 
 export const getNotifications = asyncHandler(async (request, response) => {
   const [notifications, unreadCount] = await Promise.all([
@@ -16,10 +17,13 @@ export const markNotificationRead = asyncHandler(async (request, response) => {
     { _id: request.params.id, recipientId: request.user.id }, { isRead: true }, { new: true },
   ).lean();
   if (!notification) throw new ApiError(404, "Notification not found.", "NOT_FOUND");
+  const unreadCount = await Notification.countDocuments({ recipientId: request.user.id, isRead: false });
+  emitUnreadCount(request.user.id, unreadCount);
   response.json({ notification });
 });
 
 export const markAllNotificationsRead = asyncHandler(async (request, response) => {
   await Notification.updateMany({ recipientId: request.user.id, isRead: false }, { isRead: true });
+  emitUnreadCount(request.user.id, 0);
   response.json({ unreadCount: 0 });
 });

@@ -16,6 +16,7 @@ const ingredientSchema = z.object({
 const stepSchema = z.object({
 	order: z.number().int().min(1),
 	text: z.string().trim().min(1).max(2000),
+	imageUrl: z.string().url().optional(),
 });
 
 export const recipeFieldsSchema = z.object({

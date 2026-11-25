@@ -1,7 +1,8 @@
 import axios from "axios";
+import imageCompression from "browser-image-compression";
 
-export async function getUploadSignature() {
-  const { data } = await axios.get("/api/uploads/signature", { withCredentials: true });
+export async function getUploadSignature(folder = "recipes/covers") {
+  const { data } = await axios.get("/api/uploads/signature", { params: { folder }, withCredentials: true });
   return data;
 }
 
@@ -20,4 +21,15 @@ export async function uploadImageToCloudinary(file, signature, onProgress) {
     { onUploadProgress: (event) => onProgress?.(event.total ? Math.round((event.loaded * 100) / event.total) : 0) },
   );
   return data.secure_url;
+}
+
+export async function compressAndUploadImage(file, folder, onProgress) {
+  const compressedFile = await imageCompression(file, {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 2000,
+    useWebWorker: true,
+    fileType: file.type,
+  });
+  const signature = await getUploadSignature(folder);
+  return uploadImageToCloudinary(compressedFile, signature, onProgress);
 }

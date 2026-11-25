@@ -1,30 +1,32 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext.jsx";
 import buildImageUrl from "../../utils/buildImageUrl.js";
 import formatCookTime from "../../utils/formatCookTime.js";
 
 const RECIPE_IMAGE_WIDTH = 720;
+const LIKE_SIGN_IN_MESSAGE = "Sign in to like recipes";
 
 export default function RecipeCard({ recipe, actions }) {
+  const { requireAuth } = useAuth();
   const [imageFailed, setImageFailed] = useState(false);
   const imageUrl = buildImageUrl(recipe.coverUrl, RECIPE_IMAGE_WIDTH);
   const hasImage = imageUrl && !imageFailed;
   const averageRating = recipe.ratingCount ? (recipe.ratingSum / recipe.ratingCount).toFixed(1) : null;
+  const recipeUrl = getRecipeUrl(recipe.slug);
 
   return (
     <article className="recipe-card">
       <div className="recipe-card-photo">
-        <Link to={`/recipes/${recipe.slug}`} className="recipe-photo-link" aria-label={`View ${recipe.title}`}>
+        <Link to={recipeUrl} className="recipe-photo-link" aria-label={`View ${recipe.title}`}>
           {hasImage && <img src={imageUrl} alt={recipe.title} loading="lazy" decoding="async" onError={() => setImageFailed(true)} />}
           {!hasImage && <FoodPhotoPlaceholder />}
         </Link>
-        <button className="recipe-like-placeholder" type="button" aria-label={`Like ${recipe.title}`} title="Like controls are being added">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.7c0 4.1-8.8 10-8.8 10s-8.8-5.9-8.8-10a4.7 4.7 0 0 1 8.8-2.2 4.7 4.7 0 0 1 8.8 2.2Z" /></svg>
-        </button>
+        <RecipeLikePlaceholder title={recipe.title} requireAuth={requireAuth} />
         {recipe.isSaved && <span className="recipe-saved-indicator" role="img" aria-label="Saved recipe" title="Saved recipe"><BookmarkIcon /></span>}
         <span className="recipe-time-pill"><ClockIcon />{formatCookTime(recipe.cookTime)}</span>
       </div>
-      <Link to={`/recipes/${recipe.slug}`} className="recipe-card-copy" aria-label={`Open ${recipe.title}`}>
+      <Link to={recipeUrl} className="recipe-card-copy" aria-label={`Open ${recipe.title}`}>
         <span className="recipe-diet-row"><DietMarker diet={recipe.diet} /><span className="recipe-diet-label">{dietLabel(recipe.diet)}</span></span>
         <h3>{recipe.title}</h3>
         <p className="recipe-meta">{recipe.cuisine}<span aria-hidden="true">·</span>{capitalize(recipe.difficulty)}</p>
@@ -35,6 +37,18 @@ export default function RecipeCard({ recipe, actions }) {
       {actions}
     </article>
   );
+}
+
+function RecipeLikePlaceholder({ title, requireAuth }) {
+  return (
+    <button className="recipe-like-placeholder" type="button" aria-label={`Like ${title}`} title="Sign in to like recipes" onClick={() => requireAuth(() => {}, LIKE_SIGN_IN_MESSAGE)}>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.7c0 4.1-8.8 10-8.8 10s-8.8-5.9-8.8-10a4.7 4.7 0 0 1 8.8-2.2 4.7 4.7 0 0 1 8.8 2.2Z" /></svg>
+    </button>
+  );
+}
+
+function getRecipeUrl(slug) {
+  return `/recipe/${slug}`;
 }
 
 function FoodPhotoPlaceholder() {

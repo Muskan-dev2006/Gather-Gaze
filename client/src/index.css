@@ -109,11 +109,14 @@ button { color: inherit; }
 .section-heading p { margin: 6px 0 0; color: var(--muted); font-size: 15px; }
 .cuisine-scroller { display: flex; gap: 19px; overflow-x: auto; padding: 5px 3px 12px; scrollbar-color: #dfcdb4 transparent; scrollbar-width: thin; }
 .cuisine-tile { display: grid; flex: 0 0 88px; justify-items: center; gap: 9px; border: 0; padding: 0 0 4px; background: transparent; cursor: pointer; }
-.cuisine-image-wrap { display: grid; width: 72px; height: 72px; place-items: center; overflow: hidden; border: 2px solid white; border-radius: 50%; background: #f1e5d4; box-shadow: 0 3px 12px rgb(63 45 22 / 9%); transition: box-shadow .18s ease, transform .18s ease; }
-.cuisine-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
-.cuisine-initial { display: grid; width: 100%; height: 100%; place-items: center; background: linear-gradient(145deg, #f6eee3, #eddfcd); color: #987553; font-family: Georgia, "Times New Roman", serif; font-size: 29px; font-weight: 700; }
+.cuisine-image-wrap { position: relative; display: block; width: var(--cuisine-tile-size); height: var(--cuisine-tile-size); overflow: hidden; border: 2px solid white; border-radius: 50%; background: #f1e5d4; box-shadow: 0 3px 12px rgb(63 45 22 / 9%); transition: box-shadow .18s ease, transform .18s ease; }
+.cuisine-cover-photo { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.cuisine-collage { display: grid; width: 100%; height: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
+.cuisine-photo-tint { display: block; width: 100%; height: 100%; background: linear-gradient(145deg, #f6eee3, #eddfcd); }
+.cuisine-image-skeleton { position: absolute; inset: 0; display: block; background: linear-gradient(105deg, #efe4d4 20%, #f8f1e8 45%, #efe4d4 70%); background-size: 220% 100%; animation: hero-skeleton-shimmer 1.5s ease-in-out infinite; }
+.cuisine-tile.is-loading .cuisine-image-wrap { border-color: #fffaf2; }
 .cuisine-name { max-width: 100%; color: #6d5840; font-size: 12px; font-weight: 650; text-align: center; white-space: nowrap; }
-.cuisine-tile:hover .cuisine-image-wrap { transform: translateY(-2px); }
+.cuisine-tile:hover .cuisine-image-wrap { transform: scale(1.045); }
 .cuisine-tile.is-selected .cuisine-image-wrap { border-color: var(--tomato); box-shadow: 0 0 0 3px rgb(217 74 56 / 18%); }
 .cuisine-tile.is-selected .cuisine-name { color: var(--tomato-dark); }
 .cuisine-tile:focus-visible, .recipe-card a:focus-visible, .recipe-card button:focus-visible { outline: 3px solid var(--tomato); outline-offset: 4px; }
@@ -205,6 +208,10 @@ button { color: inherit; }
   .recipe-card-copy { padding: 12px; }
   .recipe-card-copy h3 { font-size: 18px; }
   .recipe-filter-bar { padding: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cuisine-tile:hover .cuisine-image-wrap { transform: none; }
 }
 
 .app-header { position: sticky; z-index: 12; top: 0; border-bottom: 1px solid rgb(238 230 218 / 88%); background: rgb(255 250 242 / 96%); transition: box-shadow .2s ease, background .2s ease; }

@@ -1,20 +1,25 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const OBSERVER_ROOT_MARGIN = "320px";
 
 export default function useInfiniteScroll({ hasMore, isLoading, onLoadMore }) {
-  const sentinelRef = useRef(null);
+  const [sentinel, setSentinel] = useState(null);
+  const requestInFlight = useRef(false);
+  const sentinelRef = useCallback((node) => setSentinel(node), []);
 
   useEffect(() => {
-    const sentinel = sentinelRef.current;
     if (!sentinel || !hasMore || isLoading || !("IntersectionObserver" in window)) return undefined;
 
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) onLoadMore();
+      if (!entry.isIntersecting || requestInFlight.current) return;
+      requestInFlight.current = true;
+      Promise.resolve(onLoadMore()).finally(() => {
+        requestInFlight.current = false;
+      });
     }, { rootMargin: OBSERVER_ROOT_MARGIN });
     observer.observe(sentinel);
     return () => observer.disconnect();
-  }, [hasMore, isLoading, onLoadMore]);
+  }, [hasMore, isLoading, onLoadMore, sentinel]);
 
   return sentinelRef;
 }

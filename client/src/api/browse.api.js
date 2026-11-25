@@ -9,11 +9,12 @@ export async function getRecipes({ filters = {}, cursor, limit } = {}) {
   return data;
 }
 
-export async function searchRecipes(query, filters = {}) {
+export async function searchRecipes({ q, cuisine, diet, maxTime, difficulty, signal }) {
   const { data } = await apiClient.get("/recipes/search", {
-    params: { ...cleanFilters(filters), q: query },
+    params: { ...cleanFilters({ cuisine, diet, maxTime, difficulty }), q },
+    signal,
   });
-  return data;
+  return { items: data.items };
 }
 
 function cleanFilters(filters) {

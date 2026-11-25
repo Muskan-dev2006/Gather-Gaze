@@ -23,10 +23,14 @@ export default function RecipeEditorForm({ recipe, onSubmit, submitLabel }) {
   const [form, setForm] = useState(() => toFormValues(recipe));
   const [coverUrl, setCoverUrl] = useState(recipe?.coverUrl || "");
   const [ingredients, setIngredients] = useState(() => recipe?.ingredients?.map(({ name, qty, unit = "" }) => ({ name, qty: String(qty), unit })) || [{ ...EMPTY_INGREDIENT }]);
-  const [steps, setSteps] = useState(() => recipe?.steps?.slice().sort((a, b) => a.order - b.order).map(({ text }) => text) || [""]);
+  const [steps, setSteps] = useState(() => recipe?.steps?.slice().sort((a, b) => a.order - b.order).map(({ text, imageUrl = "" }) => ({ text, imageUrl })) || [{ text: "", imageUrl: "" }]);
   const [error, setError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
+  const [uploadingIds, setUploadingIds] = useState([]);
+
+  function trackUpload(id, isActive) {
+    setUploadingIds((current) => isActive ? [...new Set([...current, id])] : current.filter((item) => item !== id));
+  }
 
   function updateField(event) {
     const { name, value } = event.target;
@@ -41,7 +45,7 @@ export default function RecipeEditorForm({ recipe, onSubmit, submitLabel }) {
       qty: Number(item.qty),
       ...(item.unit.trim() ? { unit: item.unit.trim() } : {}),
     }));
-    const cleanSteps = steps.map((text) => text.trim());
+    const cleanSteps = steps.map((step) => step.text.trim());
     const cookTime = Number(form.cookTime);
     const servings = Number(form.servings);
     const tags = form.tags.split(",").map((tag) => tag.trim()).filter(Boolean);
@@ -69,7 +73,7 @@ export default function RecipeEditorForm({ recipe, onSubmit, submitLabel }) {
         servings,
         tags,
         ingredients: cleanIngredients,
-        steps: cleanSteps.map((text, index) => ({ order: index + 1, text })),
+        steps: cleanSteps.map((text, index) => ({ order: index + 1, text, ...(steps[index].imageUrl ? { imageUrl: steps[index].imageUrl } : {}) })),
       });
     } catch (saveError) {
       setError(saveError.response?.data?.message || saveError.message || "Couldn't save your recipe. Please try again.");
@@ -116,16 +120,21 @@ export default function RecipeEditorForm({ recipe, onSubmit, submitLabel }) {
           </section>
 
           <section className="rounded-2xl border border-[#eee6da] bg-white p-5 shadow-sm sm:p-7">
-            <div className="flex items-start justify-between gap-4"><div><h2 className="font-serif text-2xl font-bold">Method</h2><p className="mt-1 text-sm text-[#786f64]">Steps are saved in the order shown.</p></div><button className="shrink-0 rounded-full border border-[#eee6da] px-4 py-2 text-xs font-bold text-[#a53a2d] hover:bg-[#fff4f0]" type="button" onClick={() => setSteps((rows) => [...rows, ""])}>+ Add step</button></div>
-            <div className="mt-5 grid gap-4">{steps.map((step, index) => <div className="flex items-start gap-3" key={index}><span className="mt-3 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#fff0eb] text-sm font-bold text-[#b9382a]">{index + 1}</span><textarea className={`${FIELD} min-h-20 resize-y`} aria-label={`Step ${index + 1}`} value={step} onChange={(event) => setSteps((rows) => rows.map((text, rowIndex) => rowIndex === index ? event.target.value : text))} placeholder="Describe what to do..." /><button aria-label={`Remove step ${index + 1}`} className="mt-3 text-lg text-[#a53a2d] hover:text-[#7f261d] disabled:opacity-30" disabled={steps.length === 1} type="button" onClick={() => setSteps((rows) => rows.filter((_, rowIndex) => rowIndex !== index))}>×</button></div>)}</div>
+            <div className="flex items-start justify-between gap-4"><div><h2 className="font-serif text-2xl font-bold">Method</h2><p className="mt-1 text-sm text-[#786f64]">Steps are saved in the order shown.</p></div><button className="shrink-0 rounded-full border border-[#eee6da] px-4 py-2 text-xs font-bold text-[#a53a2d] hover:bg-[#fff4f0]" type="button" onClick={() => setSteps((rows) => [...rows, { text: "", imageUrl: "" }])}>+ Add step</button></div>
+            <div className="mt-5 grid gap-4">{steps.map((step, index) => <div className="grid gap-3 rounded-xl border border-[#eee6da] p-4 sm:grid-cols-[auto_minmax(0,1fr)_220px_auto]" key={index}>
+              <span className="mt-3 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#fff0eb] text-sm font-bold text-[#b9382a]">{index + 1}</span>
+              <textarea className={`${FIELD} min-h-20 resize-y`} aria-label={`Step ${index + 1}`} value={step.text} onChange={(event) => setSteps((rows) => rows.map((row, rowIndex) => rowIndex === index ? { ...row, text: event.target.value } : row))} placeholder="Describe what to do..." />
+              <CoverImageUploader imageUrl={step.imageUrl} label={`Step ${index + 1} photo`} folder="recipes/steps" required={false} disabled={isSaving} onUploadingChange={(active) => trackUpload(`step-${index}`, active)} onChange={(imageUrl) => setSteps((rows) => rows.map((row, rowIndex) => rowIndex === index ? { ...row, imageUrl } : row))} />
+              <button aria-label={`Remove step ${index + 1}`} className="mt-3 text-lg text-[#a53a2d] hover:text-[#7f261d] disabled:opacity-30" disabled={steps.length === 1} type="button" onClick={() => setSteps((rows) => rows.filter((_, rowIndex) => rowIndex !== index))}>&times;</button>
+            </div>)}</div>
           </section>
         </div>
 
         <aside className="grid content-start gap-5">
-          <section className="rounded-2xl border border-[#eee6da] bg-white p-5 shadow-sm"><CoverImageUploader imageUrl={coverUrl} onChange={setCoverUrl} disabled={isSaving} onUploadingChange={setIsUploading} /></section>
+          <section className="rounded-2xl border border-[#eee6da] bg-white p-5 shadow-sm"><CoverImageUploader imageUrl={coverUrl} onChange={setCoverUrl} disabled={isSaving} onUploadingChange={(active) => trackUpload("cover", active)} /></section>
           <div className="rounded-2xl border border-[#eee6da] bg-white p-5 shadow-sm">
             <p className="text-sm leading-6 text-[#786f64]">{recipe ? "Save your changes when you’re ready." : "Your recipe will be shared with the community when you publish it."}</p>
-            <button className="mt-4 w-full rounded-full bg-[#d94a38] px-5 py-3.5 text-sm font-bold text-white transition hover:bg-[#b9382a] disabled:cursor-wait disabled:opacity-60" type="submit" disabled={isSaving || isUploading}>{isSaving ? "Saving recipe…" : isUploading ? "Uploading photo…" : submitLabel}</button>
+            <button className="mt-4 w-full rounded-full bg-[#d94a38] px-5 py-3.5 text-sm font-bold text-white transition hover:bg-[#b9382a] disabled:cursor-wait disabled:opacity-60" type="submit" disabled={isSaving || uploadingIds.length > 0}>{isSaving ? "Saving recipe…" : uploadingIds.length > 0 ? "Uploading photo…" : submitLabel}</button>
             <Link className="mt-3 block text-center text-sm font-semibold text-[#786f64] hover:text-[#b9382a]" to={recipe ? `/recipes/${recipe.slug}` : "/my/recipes"}>Cancel</Link>
           </div>
         </aside>

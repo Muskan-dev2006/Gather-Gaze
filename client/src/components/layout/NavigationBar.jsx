@@ -14,7 +14,7 @@ const PROTECTED_LINKS = [
 ];
 
 export default function NavigationBar() {
-  const { user, requireAuth, logout } = useAuth();
+  const { user, requireAuth, logout, notificationSocket } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const headerRef = useRef(null);
@@ -29,6 +29,7 @@ export default function NavigationBar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [logoutError, setLogoutError] = useState("");
   const [unreadCount, setUnreadCount] = useState(0);
+  const queryFromUrl = new URLSearchParams(location.search).get("q") || "";
 
   useEffect(() => {
     let active = true;
@@ -38,7 +39,7 @@ export default function NavigationBar() {
       return () => { active = false; };
     }
     setIsSuggestionLoading(true);
-    searchRecipes(debouncedSearchValue)
+    searchRecipes({ q: debouncedSearchValue })
       .then((result) => { if (active) setSuggestions((result.items || []).slice(0, 5)); })
       .catch(() => { if (active) setSuggestions([]); })
       .finally(() => { if (active) setIsSuggestionLoading(false); });
@@ -52,9 +53,23 @@ export default function NavigationBar() {
       try { const data = await getNotifications(); if (active) setUnreadCount(data.unreadCount || 0); } catch { /* Keep the navigation usable during network errors. */ }
     }
     refresh();
+    function receiveUnreadCount(event) {
+      if (typeof event?.unreadCount === "number") setUnreadCount(event.unreadCount);
+    }
+    notificationSocket?.on("notification:new", receiveUnreadCount);
+    notificationSocket?.on("notification:count", receiveUnreadCount);
     const timer = window.setInterval(refresh, 60000);
-    return () => { active = false; window.clearInterval(timer); };
-  }, [user]);
+    return () => {
+      active = false;
+      window.clearInterval(timer);
+      notificationSocket?.off("notification:new", receiveUnreadCount);
+      notificationSocket?.off("notification:count", receiveUnreadCount);
+    };
+  }, [user, notificationSocket]);
+
+  useEffect(() => {
+    setSearchValue(queryFromUrl);
+  }, [queryFromUrl]);
 
   useEffect(() => {
     function updateScrollState() {
@@ -100,10 +115,18 @@ export default function NavigationBar() {
   }
 
   function openRecipeSuggestion(recipe) {
-    navigate(`/recipes/${recipe.slug}`);
+    navigate(`/recipe/${recipe.slug}`);
     setSearchValue("");
     setSuggestionsOpen(false);
     setMobileSearchOpen(false);
+  }
+
+  function updateSearchValue(event) {
+    const nextValue = event.target.value;
+    setSearchValue(nextValue);
+    if (location.pathname === "/search" && nextValue.trim().length === 0) {
+      navigate("/", { replace: true });
+    }
   }
 
   function goToProtectedPage(path, message) {
@@ -140,7 +163,7 @@ export default function NavigationBar() {
 
         <nav className="desktop-navigation" aria-label="Main navigation">
           <NavLink to="/" end className={({ isActive }) => navItemClass(isActive)}>Home</NavLink>
-          <RecipeSearchForm id="desktop-site-search" className={`navigation-search${isSearchActive ? " is-active" : ""}`} searchValue={searchValue} setSearchValue={setSearchValue} onSubmit={search} onPick={openRecipeSuggestion} suggestions={suggestions} suggestionsOpen={suggestionsOpen} setSuggestionsOpen={setSuggestionsOpen} isLoading={isSuggestionLoading} />
+          <RecipeSearchForm id="desktop-site-search" className={`navigation-search${isSearchActive ? " is-active" : ""}`} searchValue={searchValue} onValueChange={updateSearchValue} onSubmit={search} onPick={openRecipeSuggestion} suggestions={suggestions} suggestionsOpen={suggestionsOpen} setSuggestionsOpen={setSuggestionsOpen} isLoading={isSuggestionLoading} />
           <button className="navigation-add-button" type="button" onClick={() => goToProtectedPage("/create", "Sign in to add your recipe")}><PlusIcon />Add recipe</button>
           {PROTECTED_LINKS.map((item) => <ProtectedNavButton key={item.path} item={item} location={location} onSelect={goToProtectedPage} />)}
           <NotificationButton count={unreadCount} active={location.pathname === "/notifications"} onClick={() => goToProtectedPage("/notifications", "Sign in to view notifications")} />
@@ -154,19 +177,19 @@ export default function NavigationBar() {
         </div>
       </div>
 
-      {mobileSearchOpen && <RecipeSearchForm id="mobile-site-search" className="mobile-search-form" autoFocus searchValue={searchValue} setSearchValue={setSearchValue} onSubmit={search} onPick={openRecipeSuggestion} suggestions={suggestions} suggestionsOpen={suggestionsOpen} setSuggestionsOpen={setSuggestionsOpen} isLoading={isSuggestionLoading} />}
+      {mobileSearchOpen && <RecipeSearchForm id="mobile-site-search" className="mobile-search-form" autoFocus searchValue={searchValue} onValueChange={updateSearchValue} onSubmit={search} onPick={openRecipeSuggestion} suggestions={suggestions} suggestionsOpen={suggestionsOpen} setSuggestionsOpen={setSuggestionsOpen} isLoading={isSuggestionLoading} />}
       {mobileMenuOpen && <MobileNavigationMenu user={user} location={location} protectedLinks={PROTECTED_LINKS} onNavigate={goToProtectedPage} onHome={() => setMobileMenuOpen(false)} onSignIn={() => openSignIn("Sign in to your account")} onLogout={handleLogout} logoutError={logoutError} />}
     </header>
   );
 }
 
-function RecipeSearchForm({ id, className, autoFocus = false, searchValue, setSearchValue, onSubmit, onPick, suggestions, suggestionsOpen, setSuggestionsOpen, isLoading }) {
+function RecipeSearchForm({ id, className, autoFocus = false, searchValue, onValueChange, onSubmit, onPick, suggestions, suggestionsOpen, setSuggestionsOpen, isLoading }) {
   const showSuggestions = suggestionsOpen && searchValue.trim().length >= 2;
   return (
     <form className={`${className} search-autocomplete`} role="search" onSubmit={onSubmit} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setSuggestionsOpen(false); }}>
       <SearchIcon />
       <label className="visually-hidden" htmlFor={id}>Search recipes</label>
-      <input id={id} autoFocus={autoFocus} role="combobox" aria-autocomplete="list" aria-expanded={showSuggestions} aria-controls={`${id}-suggestions`} value={searchValue} onFocus={() => setSuggestionsOpen(true)} onChange={(event) => { setSearchValue(event.target.value); setSuggestionsOpen(true); }} onKeyDown={(event) => { if (event.key === "Escape") setSuggestionsOpen(false); }} placeholder={SEARCH_PLACEHOLDER} />
+      <input id={id} autoFocus={autoFocus} role="combobox" aria-autocomplete="list" aria-expanded={showSuggestions} aria-controls={`${id}-suggestions`} value={searchValue} onFocus={() => setSuggestionsOpen(true)} onChange={(event) => { onValueChange(event); setSuggestionsOpen(true); }} onKeyDown={(event) => { if (event.key === "Escape") setSuggestionsOpen(false); }} placeholder={SEARCH_PLACEHOLDER} />
       {showSuggestions && <div className="search-suggestions" id={`${id}-suggestions`} role="listbox" aria-label="Recipe suggestions">
         {isLoading ? <p className="search-suggestion-message" role="status">Searching recipes…</p> : suggestions.length ? suggestions.map((recipe) => <button className="search-suggestion" key={recipe._id} type="button" role="option" aria-selected="false" onMouseDown={(event) => event.preventDefault()} onClick={() => onPick(recipe)}><span className="search-suggestion-title">{recipe.title}</span><span className="search-suggestion-meta">{recipe.cuisine} · {recipe.difficulty}</span></button>) : <p className="search-suggestion-message">No matching recipes</p>}
       </div>}

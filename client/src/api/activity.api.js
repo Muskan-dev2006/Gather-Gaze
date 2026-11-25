@@ -40,3 +40,8 @@ export async function submitReview(recipeId, review) {
   const { data } = await axios.post(`/api/recipes/${encodeURIComponent(recipeId)}/reviews`, review, { withCredentials: true });
   return data.review;
 }
+
+export async function toggleReviewHelpful(reviewId) {
+  const { data } = await axios.post(`/api/recipes/reviews/${encodeURIComponent(reviewId)}/helpful`, {}, { withCredentials: true });
+  return data;
+}
