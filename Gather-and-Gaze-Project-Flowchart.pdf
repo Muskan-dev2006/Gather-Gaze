@@ -1,0 +1,1120 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+3 0 obj
+<< /Length 6130 >>
+stream
+1 J 1 j
+1.000 1.000 1.000 rg
+0 0 792 612 re f
+0.130 0.200 0.290 rg
+0 604 792 8 re f
+BT
+/F2 20 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 38.0 554.0 Tm
+(Gather & Gaze | Complete project flow) Tj
+ET
+BT
+/F1 9 Tf
+0.340 0.400 0.460 rg
+1 0 0 1 38.0 545.0 Tm
+(System overview: how the browser, API, external services, and database work together.) Tj
+ET
+BT
+/F1 8 Tf
+0.340 0.400 0.460 rg
+1 0 0 1 720.0 16.0 Tm
+(1 / 3) Tj
+ET
+0.940 0.950 0.960 rg
+0.770 0.820 0.860 RG
+1 w
+42 431 155 76 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 52.0 488.0 Tm
+(VISITOR / COOK) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 52.0 473.8 Tm
+(Uses the responsive web app) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 52.0 461.8 Tm
+(Browses publicly; signs in for) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 52.0 449.8 Tm
+(account actions) Tj
+ET
+0.880 0.930 0.980 rg
+0.770 0.820 0.860 RG
+1 w
+248 431 235 76 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 258.0 488.0 Tm
+(REACT CLIENT  |  VITE) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 258.0 473.8 Tm
+(Pages, shared components, hooks) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 258.0 461.8 Tm
+(Axios API modules and AuthContext) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 258.0 449.8 Tm
+(Socket.IO client for live updates) Tj
+ET
+0.990 0.910 0.850 rg
+0.770 0.820 0.860 RG
+1 w
+537 431 210 76 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 547.0 488.0 Tm
+(EXTERNAL SERVICES) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 547.0 473.8 Tm
+(Google Identity: sign-in token) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 547.0 461.8 Tm
+(Cloudinary: image file storage) Tj
+ET
+0.430 0.530 0.620 RG
+1.2 w
+197.0 469.0 m 248.0 469.0 l S
+0.430 0.530 0.620 rg
+248.0 469.0 m 242.7 466.2 l 242.7 471.8 l h f
+0.430 0.530 0.620 RG
+1.2 w
+483.0 484.0 m 537.0 484.0 l S
+0.430 0.530 0.620 rg
+537.0 484.0 m 531.7 481.2 l 531.7 486.8 l h f
+BT
+/F1 7 Tf
+0.340 0.400 0.460 rg
+1 0 0 1 490.0 493.0 Tm
+(Google ID token) Tj
+ET
+0.430 0.530 0.620 RG
+1.2 w
+537.0 455.0 m 483.0 455.0 l S
+0.430 0.530 0.620 rg
+483.0 455.0 m 488.3 457.8 l 488.3 452.2 l h f
+BT
+/F1 7 Tf
+0.340 0.400 0.460 rg
+1 0 0 1 493.0 441.0 Tm
+(signed image upload) Tj
+ET
+0.880 0.950 0.900 rg
+0.770 0.820 0.860 RG
+1 w
+248 288 235 94 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 258.0 363.0 Tm
+(EXPRESS API  |  NODE.JS) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 258.0 348.8 Tm
+(Routes -> middleware -> controllers) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 258.0 336.8 Tm
+(Zod validates request data) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 258.0 324.8 Tm
+(HTTP-only JWT session cookie) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 258.0 312.8 Tm
+(100 requests / IP / 15 minutes) Tj
+ET
+0.930 0.900 0.970 rg
+0.770 0.820 0.860 RG
+1 w
+537 288 210 94 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 547.0 363.0 Tm
+(MONGODB  |  MONGOOSE) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 547.0 348.8 Tm
+(Users, recipes, likes, saves) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 547.0 336.8 Tm
+(collections, reviews, follows) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 547.0 324.8 Tm
+(helpful votes, notifications) Tj
+ET
+0.430 0.530 0.620 RG
+1.2 w
+365.0 431.0 m 365.0 382.0 l S
+0.430 0.530 0.620 rg
+365.0 382.0 m 362.2 387.3 l 367.8 387.3 l h f
+0.430 0.530 0.620 RG
+1.2 w
+483.0 335.0 m 537.0 335.0 l S
+0.430 0.530 0.620 rg
+537.0 335.0 m 531.7 332.2 l 531.7 337.8 l h f
+0.990 0.910 0.850 rg
+0.770 0.820 0.860 RG
+1 w
+248 157 235 82 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 258.0 220.0 Tm
+(SOCKET.IO SERVER) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 258.0 205.8 Tm
+(Authenticates the session cookie) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 258.0 193.8 Tm
+(Joins socket to user-specific room) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 258.0 181.8 Tm
+(Pushes notification and unread count) Tj
+ET
+0.430 0.530 0.620 RG
+1.2 w
+365.0 288.0 m 365.0 239.0 l S
+0.430 0.530 0.620 rg
+365.0 239.0 m 362.2 244.3 l 367.8 244.3 l h f
+BT
+/F1 7 Tf
+0.340 0.400 0.460 rg
+1 0 0 1 395.0 246.0 Tm
+(notification saved, then pushed) Tj
+ET
+0.430 0.530 0.620 RG
+1.2 w
+248.0 198.0 m 190.0 198.0 l S
+0.430 0.530 0.620 rg
+190.0 198.0 m 195.3 200.8 l 195.3 195.2 l h f
+0.430 0.530 0.620 RG
+1.2 w
+190.0 198.0 m 190.0 431.0 l S
+0.430 0.530 0.620 rg
+190.0 431.0 m 192.8 425.7 l 187.2 425.7 l h f
+0.430 0.530 0.620 RG
+1.2 w
+190.0 431.0 m 248.0 431.0 l S
+0.430 0.530 0.620 rg
+248.0 431.0 m 242.7 428.2 l 242.7 433.8 l h f
+BT
+/F2 8 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 55.0 381.0 Tm
+(REQUEST FLOW) Tj
+ET
+BT
+/F1 8 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 55.0 364.0 Tm
+(1  Client calls /api) Tj
+ET
+BT
+/F1 8 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 55.0 350.0 Tm
+(2  Express limits, validates) Tj
+ET
+BT
+/F1 8 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 55.0 336.0 Tm
+(   and checks authentication) Tj
+ET
+BT
+/F1 8 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 55.0 322.0 Tm
+(3  Controller reads/writes DB) Tj
+ET
+BT
+/F1 8 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 55.0 308.0 Tm
+(4  JSON response updates UI) Tj
+ET
+BT
+/F2 8 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 55.0 279.0 Tm
+(REAL-TIME FLOW) Tj
+ET
+BT
+/F1 8 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 55.0 262.0 Tm
+(Action creates notification) Tj
+ET
+BT
+/F1 8 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 55.0 248.0 Tm
+(DB stores it, Socket.IO pushes) Tj
+ET
+BT
+/F1 8 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 55.0 234.0 Tm
+(it to the recipient room) Tj
+ET
+0.940 0.950 0.960 rg
+0.770 0.820 0.860 RG
+1 w
+537 157 210 82 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 547.0 220.0 Tm
+(SHARED API SAFEGUARDS) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 547.0 205.8 Tm
+(Rate limiter on /api) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 547.0 193.8 Tm
+(Required or optional auth) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 547.0 181.8 Tm
+(Validation and central error JSON) Tj
+ET
+0.430 0.530 0.620 RG
+1.2 w
+642.0 288.0 m 642.0 262.0 l S
+0.430 0.530 0.620 RG
+1.2 w
+642.0 262.0 m 365.0 262.0 l S
+0.430 0.530 0.620 RG
+1.2 w
+365.0 262.0 m 365.0 239.0 l S
+0.430 0.530 0.620 rg
+365.0 239.0 m 362.2 244.3 l 367.8 244.3 l h f
+BT
+/F1 7.3 Tf
+0.340 0.400 0.460 rg
+1 0 0 1 38.0 16.7 Tm
+(Development: Vite proxies /api to Express. Production: browser uses configured credentialed CORS.) Tj
+ET
+
+endstream
+endobj
+4 0 obj
+<< /Length 6011 >>
+stream
+1 J 1 j
+1.000 1.000 1.000 rg
+0 0 792 612 re f
+0.130 0.200 0.290 rg
+0 604 792 8 re f
+BT
+/F2 20 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 38.0 554.0 Tm
+(Main user journeys) Tj
+ET
+BT
+/F1 9 Tf
+0.340 0.400 0.460 rg
+1 0 0 1 38.0 545.0 Tm
+(Each page calls the API; server controllers enforce rules and Mongoose persists project data.) Tj
+ET
+BT
+/F1 8 Tf
+0.340 0.400 0.460 rg
+1 0 0 1 720.0 16.0 Tm
+(2 / 3) Tj
+ET
+BT
+/F2 9 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 42.0 512.0 Tm
+(PUBLIC DISCOVERY) Tj
+ET
+0.880 0.930 0.980 rg
+0.770 0.820 0.860 RG
+1 w
+42 435 150 66 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 52.0 482.0 Tm
+(Home / Search) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 52.0 467.8 Tm
+(React pages + filters) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 52.0 455.8 Tm
+(Debounced suggestions) Tj
+ET
+0.880 0.950 0.900 rg
+0.770 0.820 0.860 RG
+1 w
+244 435 170 66 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 254.0 482.0 Tm
+(Browse API) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 254.0 467.8 Tm
+(GET /api/recipes) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 254.0 455.8 Tm
+(GET /api/recipes/search) Tj
+ET
+0.930 0.900 0.970 rg
+0.770 0.820 0.860 RG
+1 w
+466 435 145 66 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 476.0 482.0 Tm
+(Recipe collection) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 476.0 467.8 Tm
+(Mongo text search, filters) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 476.0 455.8 Tm
+(and cursor pagination) Tj
+ET
+0.940 0.950 0.960 rg
+0.770 0.820 0.860 RG
+1 w
+661 435 100 66 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 671.0 482.0 Tm
+(Recipe cards) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 671.0 467.8 Tm
+(Results +) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 671.0 455.8 Tm
+(liked/saved flags) Tj
+ET
+0.430 0.530 0.620 RG
+1.2 w
+192.0 468.0 m 244.0 468.0 l S
+0.430 0.530 0.620 rg
+244.0 468.0 m 238.7 465.2 l 238.7 470.8 l h f
+0.430 0.530 0.620 RG
+1.2 w
+414.0 468.0 m 466.0 468.0 l S
+0.430 0.530 0.620 rg
+466.0 468.0 m 460.7 465.2 l 460.7 470.8 l h f
+0.430 0.530 0.620 RG
+1.2 w
+611.0 468.0 m 661.0 468.0 l S
+0.430 0.530 0.620 rg
+661.0 468.0 m 655.7 465.2 l 655.7 470.8 l h f
+BT
+/F2 8 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 42.0 400.0 Tm
+(CURSOR-BASED LOAD MORE) Tj
+ET
+BT
+/F1 8.3 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 42.0 382.7 Tm
+(IntersectionObserver sees the grid sentinel -> client sends nextCursor -> MongoDB fetches next batch -> client appends cards.) Tj
+ET
+0.430 0.530 0.620 RG
+0.7 w
+42.0 375.0 m 750.0 375.0 l S
+BT
+/F2 9 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 42.0 342.0 Tm
+(SIGN IN AND PUBLISH) Tj
+ET
+0.990 0.910 0.850 rg
+0.770 0.820 0.860 RG
+1 w
+42 257 128 73 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 52.0 311.0 Tm
+(Google sign-in) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 52.0 296.8 Tm
+(Browser obtains ID token) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 52.0 284.8 Tm
+(from Google Identity) Tj
+ET
+0.880 0.950 0.900 rg
+0.770 0.820 0.860 RG
+1 w
+208 257 140 73 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 218.0 311.0 Tm
+(Auth API) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 218.0 296.8 Tm
+(Verify token/email; upsert) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 218.0 284.8 Tm
+(User; issue 7-day JWT) Tj
+ET
+0.880 0.930 0.980 rg
+0.770 0.820 0.860 RG
+1 w
+386 257 135 73 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 396.0 311.0 Tm
+(Session) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 396.0 296.8 Tm
+(HTTP-only session cookie) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 396.0 284.8 Tm
+(used on API requests) Tj
+ET
+0.930 0.900 0.970 rg
+0.770 0.820 0.860 RG
+1 w
+560 257 190 73 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 570.0 311.0 Tm
+(Protected actions) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 570.0 296.8 Tm
+(Create/edit/delete own recipes;) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 570.0 284.8 Tm
+(profile and saved recipes) Tj
+ET
+0.430 0.530 0.620 RG
+1.2 w
+170.0 293.0 m 208.0 293.0 l S
+0.430 0.530 0.620 rg
+208.0 293.0 m 202.7 290.2 l 202.7 295.8 l h f
+0.430 0.530 0.620 RG
+1.2 w
+348.0 293.0 m 386.0 293.0 l S
+0.430 0.530 0.620 rg
+386.0 293.0 m 380.7 290.2 l 380.7 295.8 l h f
+0.430 0.530 0.620 RG
+1.2 w
+521.0 293.0 m 560.0 293.0 l S
+0.430 0.530 0.620 rg
+560.0 293.0 m 554.7 290.2 l 554.7 295.8 l h f
+0.990 0.910 0.850 rg
+0.770 0.820 0.860 RG
+1 w
+208 159 160 69 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 218.0 209.0 Tm
+(Cover / step / review photo) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 218.0 194.8 Tm
+(API signs Cloudinary upload;) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 218.0 182.8 Tm
+(browser uploads file directly) Tj
+ET
+0.880 0.950 0.900 rg
+0.770 0.820 0.860 RG
+1 w
+418 159 155 69 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 428.0 209.0 Tm
+(Recipe API) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 428.0 194.8 Tm
+(Zod + schema validation;) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 428.0 182.8 Tm
+(unique slug; author is session user) Tj
+ET
+0.930 0.900 0.970 rg
+0.770 0.820 0.860 RG
+1 w
+623 159 127 69 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 633.0 209.0 Tm
+(MongoDB) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 633.0 194.8 Tm
+(Recipe embeds ingredients) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 633.0 182.8 Tm
+(and ordered steps) Tj
+ET
+0.430 0.530 0.620 RG
+1.2 w
+278.0 257.0 m 278.0 228.0 l S
+0.430 0.530 0.620 rg
+278.0 228.0 m 275.2 233.3 l 280.8 233.3 l h f
+0.430 0.530 0.620 RG
+1.2 w
+368.0 193.0 m 418.0 193.0 l S
+0.430 0.530 0.620 rg
+418.0 193.0 m 412.7 190.2 l 412.7 195.8 l h f
+0.430 0.530 0.620 RG
+1.2 w
+573.0 193.0 m 623.0 193.0 l S
+0.430 0.530 0.620 rg
+623.0 193.0 m 617.7 190.2 l 617.7 195.8 l h f
+BT
+/F2 8 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 42.0 114.0 Tm
+(ACCESS CONTROL) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 42.0 97.8 Tm
+(Public reads may use optional auth for personal flags. Write routes require a valid session; recipe edits/deletes also check ownership.) Tj
+ET
+BT
+/F1 7.3 Tf
+0.340 0.400 0.460 rg
+1 0 0 1 38.0 16.7 Tm
+(Images live in Cloudinary; MongoDB stores their secure URLs and image metadata, not the image files.) Tj
+ET
+
+endstream
+endobj
+5 0 obj
+<< /Length 5994 >>
+stream
+1 J 1 j
+1.000 1.000 1.000 rg
+0 0 792 612 re f
+0.130 0.200 0.290 rg
+0 604 792 8 re f
+BT
+/F2 20 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 38.0 554.0 Tm
+(Community activity, collections, and notifications) Tj
+ET
+BT
+/F1 9 Tf
+0.340 0.400 0.460 rg
+1 0 0 1 38.0 545.0 Tm
+(These flows connect user actions to database records and, for notifications, a real-time push.) Tj
+ET
+BT
+/F1 8 Tf
+0.340 0.400 0.460 rg
+1 0 0 1 720.0 16.0 Tm
+(3 / 3) Tj
+ET
+BT
+/F2 9 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 42.0 512.0 Tm
+(RECIPE AND COMMUNITY ACTIONS) Tj
+ET
+0.880 0.930 0.980 rg
+0.770 0.820 0.860 RG
+1 w
+42 422 150 78 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 52.0 481.0 Tm
+(Like / unlike) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 52.0 466.8 Tm
+(Like record is created or) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 52.0 454.8 Tm
+(removed; recipe likeCount) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 52.0 442.8 Tm
+(changes) Tj
+ET
+0.880 0.950 0.900 rg
+0.770 0.820 0.860 RG
+1 w
+238 422 150 78 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 248.0 481.0 Tm
+(Review / update) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 248.0 466.8 Tm
+(One review per user/recipe;) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 248.0 454.8 Tm
+(transaction updates rating) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 248.0 442.8 Tm
+(sum and count) Tj
+ET
+0.930 0.900 0.970 rg
+0.770 0.820 0.860 RG
+1 w
+434 422 150 78 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 444.0 481.0 Tm
+(Helpful vote) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 444.0 466.8 Tm
+(Toggle vote record; update) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 444.0 454.8 Tm
+(review helpfulCount) Tj
+ET
+0.990 0.910 0.850 rg
+0.770 0.820 0.860 RG
+1 w
+630 422 130 78 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 640.0 481.0 Tm
+(Follow / unfollow) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 640.0 466.8 Tm
+(Follow record links) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 640.0 454.8 Tm
+(follower to followed cook) Tj
+ET
+0.940 0.950 0.960 rg
+0.770 0.820 0.860 RG
+1 w
+238 310 346 72 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 248.0 363.0 Tm
+(Notification creation) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 248.0 348.8 Tm
+(For a new like, first review, or follow: create Notification in MongoDB,) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 248.0 336.8 Tm
+(load actor/recipe display fields, count unread notifications.) Tj
+ET
+0.430 0.530 0.620 RG
+1.2 w
+117.0 422.0 m 117.0 397.0 l S
+0.430 0.530 0.620 RG
+1.2 w
+117.0 397.0 m 270.0 397.0 l S
+0.430 0.530 0.620 RG
+1.2 w
+270.0 397.0 m 270.0 382.0 l S
+0.430 0.530 0.620 rg
+270.0 382.0 m 267.2 387.3 l 272.8 387.3 l h f
+0.430 0.530 0.620 RG
+1.2 w
+313.0 422.0 m 313.0 382.0 l S
+0.430 0.530 0.620 rg
+313.0 382.0 m 310.2 387.3 l 315.8 387.3 l h f
+0.430 0.530 0.620 RG
+1.2 w
+695.0 422.0 m 695.0 397.0 l S
+0.430 0.530 0.620 RG
+1.2 w
+695.0 397.0 m 550.0 397.0 l S
+0.430 0.530 0.620 RG
+1.2 w
+550.0 397.0 m 550.0 382.0 l S
+0.430 0.530 0.620 rg
+550.0 382.0 m 547.2 387.3 l 552.8 387.3 l h f
+0.990 0.910 0.850 rg
+0.770 0.820 0.860 RG
+1 w
+238 201 150 74 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 248.0 256.0 Tm
+(Socket.IO) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 248.0 241.8 Tm
+(Cookie-authenticated socket) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 248.0 229.8 Tm
+(joins room user:<id>) Tj
+ET
+0.880 0.930 0.980 rg
+0.770 0.820 0.860 RG
+1 w
+434 201 150 74 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 444.0 256.0 Tm
+(Live browser UI) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 444.0 241.8 Tm
+(notification:new updates list) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 444.0 229.8 Tm
+(and unread badge) Tj
+ET
+0.430 0.530 0.620 RG
+1.2 w
+313.0 310.0 m 313.0 275.0 l S
+0.430 0.530 0.620 rg
+313.0 275.0 m 310.2 280.3 l 315.8 280.3 l h f
+0.430 0.530 0.620 RG
+1.2 w
+388.0 238.0 m 434.0 238.0 l S
+0.430 0.530 0.620 rg
+434.0 238.0 m 428.7 235.2 l 428.7 240.8 l h f
+0.880 0.950 0.900 rg
+0.770 0.820 0.860 RG
+1 w
+630 201 130 74 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 640.0 256.0 Tm
+(Notification REST API) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 640.0 241.8 Tm
+(Fetch latest 50; mark one) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 640.0 229.8 Tm
+(or all read; emit new count) Tj
+ET
+0.430 0.530 0.620 RG
+1.2 w
+584.0 238.0 m 630.0 238.0 l S
+0.430 0.530 0.620 rg
+630.0 238.0 m 624.7 235.2 l 624.7 240.8 l h f
+BT
+/F2 9 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 42.0 165.0 Tm
+(COLLECTIONS AND PROFILE) Tj
+ET
+0.930 0.900 0.970 rg
+0.770 0.820 0.860 RG
+1 w
+42 76 220 77 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 52.0 134.0 Tm
+(Collections) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 52.0 119.8 Tm
+(Create/delete named groups; add/remove recipes.) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 52.0 107.8 Tm
+(Starter collections can be generated on first list.) Tj
+ET
+0.880 0.930 0.980 rg
+0.770 0.820 0.860 RG
+1 w
+286 76 220 77 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 296.0 134.0 Tm
+(Profile summary) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 296.0 119.8 Tm
+(Counts published recipes, saved recipes,) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 296.0 107.8 Tm
+(and likes received on authored recipes.) Tj
+ET
+0.940 0.950 0.960 rg
+0.770 0.820 0.860 RG
+1 w
+530 76 230 77 re B
+BT
+/F2 10 Tf
+0.130 0.200 0.290 rg
+1 0 0 1 540.0 134.0 Tm
+(Shared data rules) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 540.0 119.8 Tm
+(Unique indexes prevent duplicate likes, saves,) Tj
+ET
+BT
+/F1 8.2 Tf
+0.160 0.200 0.240 rg
+1 0 0 1 540.0 107.8 Tm
+(reviews, follows, votes, and collection names.) Tj
+ET
+0.430 0.530 0.620 RG
+1.2 w
+262.0 115.0 m 286.0 115.0 l S
+0.430 0.530 0.620 rg
+286.0 115.0 m 280.7 112.2 l 280.7 117.8 l h f
+0.430 0.530 0.620 RG
+1.2 w
+506.0 115.0 m 530.0 115.0 l S
+0.430 0.530 0.620 rg
+530.0 115.0 m 524.7 112.2 l 524.7 117.8 l h f
+BT
+/F1 7.3 Tf
+0.340 0.400 0.460 rg
+1 0 0 1 38.0 16.7 Tm
+(Notifications are stored first, so they remain available when the recipient is offline; Socket.IO delivers them live when connected.) Tj
+ET
+
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 9 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 3 0 R >>
+endobj
+7 0 obj
+<< /Type /Page /Parent 9 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 4 0 R >>
+endobj
+8 0 obj
+<< /Type /Page /Parent 9 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 5 0 R >>
+endobj
+9 0 obj
+<< /Type /Pages /Kids [6 0 R 7 0 R 8 0 R] /Count 3 >>
+endobj
+10 0 obj
+<< /Type /Catalog /Pages 9 0 R >>
+endobj
+xref
+0 11
+0000000000 65535 f 
+0000000015 00000 n 
+0000000112 00000 n 
+0000000214 00000 n 
+0000006396 00000 n 
+0000012459 00000 n 
+0000018505 00000 n 
+0000018641 00000 n 
+0000018777 00000 n 
+0000018913 00000 n 
+0000018982 00000 n 
+trailer
+<< /Size 11 /Root 10 0 R >>
+startxref
+19032
+%%EOF
